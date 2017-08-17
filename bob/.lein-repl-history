@@ -1,0 +1,7 @@
+(def my-map {"key-1" "foo" "key-2" "bar"})
+(get my-map "key-1")
+(get my-map "key-2")
+(get my-map "key-3")
+(trim "     ")
+(use 'clojure.string)
+(trim "     ")
