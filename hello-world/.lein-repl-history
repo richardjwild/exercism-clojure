@@ -1,0 +1,5 @@
+(require '[clojure.test :refer [run-tests]])
+(require 'hello-world-test.hello-world-test)
+(require 'hello-world-test)
+(run-tests 'hello-world-test.hello-world-test)
+quit
