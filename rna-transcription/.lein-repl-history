@@ -1,0 +1,50 @@
+(count "abc")
+(count "abcd")
+(get 1 "abc")
+(get "abc" 1)
+(get "abc" 0)
+(def pairs {'C','G',
+            'G','C',
+            'A','U',
+            'U','A'})
+(get pairs 'G')
+(get pairs "G")
+(def pairs {'C',"G",
+            'G',"C",
+            'A',"U",
+            'U',"A"})
+(get pairs 'C')
+(get pairs 'A')
+(get "ACGU" 2)
+(get pais (get "ACGU" 2))
+(get pairs (get "ACGU" 2))
+(def pairs {\C,"G",
+            \G,"C",
+            \A,"U",
+            \U,"A"})
+(get pairs 'A')
+(get pairs \A)
+(get pairs (get "ACGU" 2))
+(first "abc")
+(rest "abc")
+(rest "")
+(rest "a")
+(empty? (rest "a"))
+(empty? (rest "ab"))
+(throw (AssertionError.))
+(def base-pairs {\C, "G",
+                 \G, "C",
+                 \A, "U",
+                 \T, "A"})
+(defn get-pair [base]
+  (if-let [[base pair] (find base-pairs base)]
+    pair
+    (throw (AssertionError. "No matching base pair"))))
+(map "CGAT" get-pair)
+(map get-pair "CGAT")
+(str (list "G" "C" "U" "A"))
+(apply str (list "G" "C" "U" "A"))
+(apply str (map get-pair "CGAT"))
+(str (list "a" "b" "c" "d"))
+(apply str (list "a" "b" "c" "d"))
+(apply str ["a" "b" "c" "d"])
