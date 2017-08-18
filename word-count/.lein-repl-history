@@ -1,0 +1,235 @@
+(split "a string made up of words")
+(clojure.string/split "a string made up of words")
+(clojure.string/split "a string made up of words" " ")
+(clojure.string/split "a string made up of words" #" ")
+(list :a :b)
+'(:a :b)
+(:a :b)
+(apply merge '({:key-1, "value 1"} {:key-2, "value 2"}))
+(hash-map :key-1, "value 1")
+(clojure.string/split "a string made up of words" #" ")
+(defn map-word [word] {word, 1})
+(map-word "foo")
+(map map-word (clojure.string/split "a string made up of words" #" "))
+(apply merge (map map-word (clojure.string/split "a string made up of words" #" ")))
+(def my-map {:key 1})
+(get my-map :key)
+(assoc my-map {:key 2})
+(assoc my-map :key 2)
+(get my-map :key)
+(def my-map {:key1 1, :other-key "a value"})
+(get my-map :key)
+(get my-map :key1)
+(get my-map :other-key)
+(assoc my-map :key1 2)
+(def words {})
+(word-count "hello world")
+(:require word-count)
+(word-count/word-count "hello world")
+(defn number-of-times-word-seen [word]
+  (if-let [n (get word-map word)]
+    (inc n)
+    1))
+(def word-map {})
+(defn number-of-times-word-seen [word]
+  (if-let [n (get word-map word)]
+    (inc n)
+    1))
+(defn add-word-to-map [word]
+  (assoc word-map word (number-of-times-word-seen word)))
+(defn word-count [input-string]
+  (map add-word-to-map (str/split input-string #" ")))
+(defn word-count [input-string]
+  (map add-word-to-map (clojure.string/split input-string #" ")))
+(word-count "hello world")
+(word-count "hello world hello")
+(def word-map {})
+(word-count "hello world hello")
+(def word-map {})
+(word-count "hello hello hello")
+(def word-map {})
+(assoc word-map "hello" 1)
+(assoc word-map "hello" 2)
+(assoc word-map "world" 1))
+(assoc word-map "world" 1)
+(word-map)
+(get word-map "hello")
+(def word-map {})
+(assoc word-map "hello" 1)
+(assoc word-map "world" 1)
+(assoc word-map :hello 1)
+(assoc word-map :world 1)
+(def word-map {"hello" 1, "world" 1})
+(word-map)
+word-map
+(assoc word-map "hello" 2)
+(assoc word-map "world" 2)
+(defn count-distinct-words [word-list word-map]
+  (let [word (first word-list) rest-of-list (rest word-list)]
+    (if (empty? rest-of-list)
+      (assoc word-map word 1)
+      (assoc (count-distinct-words rest-of-list word-map) word (number-of-times-word-seen word word-map)))))
+(count-distinct-words "word another word yet another word" {})
+(count-distinct-words (list "word" "another" "word" "yet" "another" "word") {})
+(def word-list (list "word" "another" "word" "yet" "another" "word"))
+word-list
+(count-distinct-words word-list {})
+(defn number-of-times-word-seen
+  [word word-map]
+  (if-let [n (get word-map word)] (inc n) 1))
+(count-distinct-words word-list {})
+(number-of-times-word-seen "word" {"word" 1, "another" 1})
+(number-of-times-word-seen "foo" {"word" 1, "another" 1})
+(number-of-times-word-seen "another" {"word" 1, "another" 1})
+(number-of-times-word-seen "another" {"word" 1, "another" 5})
+(assoc {} "word" (number-of-times-seen "word" {})
+)
+(assoc {} "word" (number-of-times-seen "word" {}))
+(number-of-times-word-seen "another" {"word" 1, "another" 5})
+(number-of-times-seen "word" {})
+(number-of-times-seen "word" {"word" 1})
+(assoc {} "word" (number-of-times-word-seen "word" {}))
+(assoc {"word" 1} "word" (number-of-times-word-seen "word" {"word" 1}))
+(assoc {"word" 2} "another" (number-of-times-word-seen "another" {"word" 2}))
+(assoc {"word" 2, "another" 1} "word" (number-of-times-word-seen "word" {"word" 2, "another" 1}))
+(assoc {"word" 3, "another" 1} "another" (number-of-times-word-seen "another" {"word" 3, "another" 1}))
+(assoc {"word" 3, "another" 2} "yet" (number-of-times-word-seen "yet" {"word" 3, "another" 2}))
+(def a-list (list 1 2 3))
+(rest a-list)
+(rest (rest a-list))
+(rest (rest (rest a-list)))
+(first (rest (rest (rest a-list))))
+(defn count-distinct-words [word-list word-map]
+  (let [word (first word-list) rest-of-list (rest word-list)]
+    (if (nil? word)
+      word-map
+      (assoc (count-distinct-words rest-of-list word-map) word (number-of-times-word-seen word word-map)))))
+word-list
+(count-distinct-words word-list {})
+(do (println "Hello world!") 1)
+(do (println word-list) 1)
+(defn count-distinct-words [word-list word-map]
+  (let [word (first word-list) rest-of-list (rest word-list)]
+    (if (nil? word)
+      (do (println word-map) word-map)
+      (do (println word-map) (assoc (count-distinct-words rest-of-list word-map) word (number-of-times-word-seen word word-map))) )))
+(count-distinct-words word-list {})
+(defn count-distinct-words [word-list word-map]
+  (let [word (first word-list) rest-of-list (rest word-list)]
+    (if (nil? word)
+      (do (println word-map) word-map)
+      (do (println (assoc (count-distinct-words rest-of-list word-map) word (number-of-times-word-seen word word-map)))
+          (assoc (count-distinct-words rest-of-list word-map) word (number-of-times-word-seen word word-map))) )))
+(count-distinct-words word-list {})
+(if-let [foo nil bar "not nil"] (println "doing something") (println "doing nothing"))
+(if-let [foo nil] (println "something") (println "nothing"))
+(if-let [foo nil] "something" "nothing")
+(if-let [foo 1] "something" "nothing")
+(defn count-distinct-words [word-list word-map]
+  (if-let [word (first word-list)]
+    (assoc (count-distinct-words (rest list) word-map) word (number-of-times-word-seen word word-map))
+    {}))
+(count-distinct-words word-list nil)
+(defn count-distinct-words [word-list word-map]
+  (if-let [word (first word-list)]
+    (assoc (count-distinct-words (rest list) word-map) word (number-of-times-word-seen word word-map))
+    word-map))
+(count-distinct-words word-list {})
+(defn count-distinct-words [word-list word-map]
+  (if-let [word (first word-list)]
+    (assoc (count-distinct-words (rest word-list) word-map) word (number-of-times-word-seen word word-map))
+    word-map))
+(def words (list "word" "another" "word" "yet" "another" "word"))
+(count-distinct-words words {})
+(let [x 1] x)
+(let [x 2] x)
+(defn count-distinct-words [word-list word-map]
+  (if-let [word (first word-list)]
+    (let [result (assoc (count-distinct-words (rest word-list) word-map) word (number-of-times-word-seen word word-map))]
+      (do (println result) result))
+    word-map))
+(count-distinct-words words {})
+(println "words: " words)
+(defn count-distinct-words [word-list word-map]
+  (println "word-list:" word-list)
+  (if-let [word (first word-list)]
+    (let [result (assoc (count-distinct-words (rest word-list) word-map) word (number-of-times-word-seen word word-map))]
+      (do (println result) result))
+    word-map))
+(count-distinct-words words {})
+(defn count-distinct-words [word-list word-map]
+  (println "word-list:" word-list)
+  (if-let [word (first word-list)]
+    (let [previous-result (count-distinct-words (rest word-list) word-map)]
+      (do (println previous-result)
+          (assoc previous-result word (number-of-times-word-seen word word-map))))
+    word-map))
+(count-distinct-words words {})
+(defn count-distinct-words [word-list word-map]
+  (println "word-list:" word-list)
+  (if-let [word (first word-list)]
+    (let [previous-result (count-distinct-words (rest word-list) word-map)]
+      (do (println previous-result word (number-of-times-word-seen word word-map))
+          (assoc previous-result word (number-of-times-word-seen word word-map))))
+    word-map))
+(count-distinct-words words {})
+(defn count-distinct-words [word-list word-map]
+  (println "word-list:" word-list)
+  (if-let [word (first word-list)]
+    (let [previous-result (count-distinct-words (rest word-list) word-map)]
+      (do (println previous-result word (number-of-times-word-seen word previous-result))
+          (assoc previous-result word (number-of-times-word-seen word previous-result))))
+    word-map))
+(count-distinct-words words {})
+(defn count-distinct-words [word-list word-map]
+  (if-let [word (first word-list)]
+    (let [previous-result (count-distinct-words (rest word-list) word-map)]
+      (assoc previous-result word (number-of-times-word-seen word previous-result)))
+    word-map))
+(count-distinct-words words {})
+(def words (list "word" "another" "word" "yet" "another" "word" "word"))
+(count-distinct-words words {})
+(defn count-distinct-words [word-list word-map]
+  (if-let [word (first word-list)]
+    (let [previous-result (count-distinct-words (rest word-list) word-map)]
+      (assoc previous-result word (number-of-times-word-seen word previous-result)))
+    {}))
+(count-distinct-words words {})
+(count-distinct-words words nil)
+(defn count-distinct-words [word-list]
+  (if-let [word (first word-list)]
+    (let [previous-result (count-distinct-words (rest word-list))]
+      (assoc previous-result word (number-of-times-word-seen word previous-result)))
+    {}))
+(count-distinct-words words)
+(map)
+(map {})
+{}
+(def empty-map {})
+(defn count-distinct-words [word-list]
+  (if-let [word (first word-list)]
+    (let [previous-result (count-distinct-words (rest word-list))]
+      (assoc previous-result word (number-of-times-word-seen word previous-result)))
+    empty-map))
+(count-distinct-words words)
+(apply str (filter #(#{\0,\1,\2,\3,\4,\5,\6,\7,\8,\9} %) "abc123def"))
+(defn filter-characters [input] (filter (fn [x] (Character/isLetter x)) input))
+(filter-characters "a!b%C2def,")
+(defn filter-characters [input] (apply str 
+(filter (fn [x] (Character/isLetter x)) input)))
+(filter-characters "a!b%C2def,")
+(trim "  abc   ")
+(clojure.string/trim "  abc   ")
+(defn is-alphanumeric [c]
+  (or (Character/isLetter c) (Character/isDigit c)))
+(defn filter-characters [input]
+  (str/trim (apply str
+                   (filter (fn [c] (is-alphanumeric c)) input))))
+  (clojure.string/trim (apply str
+(defn filter-characters [input]
+(clojure.string/trim (apply str
+                   (filter (fn [c] (is-alphanumeric c)) input))))
+(filter-characters "   abcdef&!^HHH")
+(defn filter-characters [input]
+(apply str (filter (fn [c] (is-alphanumeric c)) input)))
+(filter-characters "   abcdef&!^HHH")
