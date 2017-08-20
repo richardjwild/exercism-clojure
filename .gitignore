@@ -1,4 +1,4 @@
 vcs.xml
 .idea
 target
-.iml
+*.iml
