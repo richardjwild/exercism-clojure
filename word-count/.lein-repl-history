@@ -233,3 +233,35 @@ word-list
 (defn filter-characters [input]
 (apply str (filter (fn [c] (is-alphanumeric c)) input)))
 (filter-characters "   abcdef&!^HHH")
+(frequencies ["word" "another" "word" "yet" "another" "word"])
+(filter (fn [c] (re-matches #"^[a-zA-Z0-9 ]" c)) "a BG%!0&kKyf#_ G Hz")
+(filter (fn [c] (re-matches #"^[a-zA-Z0-9 ]$" c)) "a BG%!0&kKyf#_ G Hz")
+(filter (fn [c] (re-matches #"^[a-zA-Z0-9 ]+$" c)) "a BG%!0&kKyf#_ G Hz")
+(defn is-alphanumeric-or-space [c]
+(or (= ' ' c) (Character/isLetter c) (Character/isDigit c)))
+(apply str (filter is-alphanumeric-or-space "a BG%!0&kKyf#_ G Hz"))
+(defn is-alphanumeric-or-space [c] (or (Character/isLetter c) (Character/isDigit c)))
+(apply str (filter is-alphanumeric-or-space "a BG%!0&kKyf#_ G Hz"))
+(defn is-alphanumeric-or-space [c] (or (= \space c) (Character/isLetter c) (Character/isDigit c)))
+(apply str (filter is-alphanumeric-or-space "a BG%!0&kKyf#_ G Hz"))
+(defn is-allowed-character [c] (or (= \space c) (Character/isLetter c) (Character/isDigit c)))
+(defn filter-allowed-characters [s]
+  (apply str (filter is-allowed-character s)))
+(defn word-count [input-string]
+  (frequencies (str/split (str/lower-case (filter-allowed-characters input-string)) #" ")))
+(defn word-count [input-string]
+  (frequencies (clojure.string/split (clojure.string/lower-case (filter-allowed-characters input-string)) #" ")))
+(word-count/word-count "car : carpet as java : javascript!!&@$%^&")
+(word-count "car : carpet as java : javascript!!&@$%^&")
+(filter-allowed-characters "car : carpet as java : javascript!!&@$%^&")
+(clojure.string/split (filter-allowed-characters "car : carpet as java : javascript!!&@$%^&"))
+(clojure.string/split (filter-allowed-characters "car : carpet as java : javascript!!&@$%^&") #" ")
+(defn filter-empty-string [s] (if (empty? s) nil s))
+(filter-empty-string "foo")
+(filter-empty-string "")
+(defn word-count [input-string]
+(frequencies (filter filter-empty-string (str/split (str/lower-case (filter-allowed-characters input-string)) #" "))))
+(defn word-count [input-string]
+(frequencies (filter filter-empty-string (clojure.string/split (clojure.string/lower-case (filter-allowed-characters input-string)) #" "))))
+(word-count "car : carpet as java : javascript!!&@$%^&")
+(word-count "one fish two fish red fish blue fish")
