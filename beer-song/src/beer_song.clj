@@ -1,35 +1,22 @@
 (ns beer-song
   (require [clojure.string :as str]))
 
-(defn plural [n] (str n " bottles"))
+(defn bottles-of-beer [n]
+  (str (case n
+         0 "no more bottles"
+         1 "1 bottle"
+         (str n " bottles")) " of beer"))
 
-(defn bottles [n]
-  (case n
-    0 (plural "no more")
-    1 "1 bottle"
-    (plural n)))
-
-(defn how-many-bottles-of-beer [n]
-  (str (bottles n) " of beer"))
-
-(defn how-many-bottles-of-beer-on-the-wall [n]
-  (str (how-many-bottles-of-beer n) " on the wall"))
-
-(defn how-many [n]
-  (if (= n 1) "it" "one"))
+(defn bottles-of-beer-on-the-wall [n]
+  (str (bottles-of-beer n) " on the wall"))
 
 (defn what-to-do [n]
-  (if (= 0 n)
-    (str "go to the store and buy some more, " (how-many-bottles-of-beer-on-the-wall 99))
-    (str "take " (how-many n) " down and pass it around, " (how-many-bottles-of-beer-on-the-wall (dec n)))))
-
-(defn line [s]
-  (str (str/capitalize s) ".\n"))
+  (if (= 0 n) "Go to the store and buy some more, "
+    (str "Take " (if (= n 1) "it" "one") " down and pass it around, ")))
 
 (defn verse [n]
-  (str
-    (line (str (how-many-bottles-of-beer-on-the-wall n) ", " (how-many-bottles-of-beer n)))
-    (line (what-to-do n))))
+  (str (str/capitalize (bottles-of-beer-on-the-wall n)) ", " (bottles-of-beer n) ".\n"
+       (what-to-do n) (bottles-of-beer-on-the-wall (if (= 0 n) 99 (dec n))) ".\n"))
 
 (defn sing
   ([verse-from verse-to]

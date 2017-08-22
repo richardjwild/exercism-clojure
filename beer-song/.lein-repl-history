@@ -88,3 +88,5 @@
 (sing 1 0)
 (sing 1)
 (sing 2)
+(apply str "foo" [" bar" " baz"])
+(apply str ["foo" " " "bar" " "] "baz")
