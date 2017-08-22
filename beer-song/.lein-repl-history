@@ -1,0 +1,90 @@
+(str 1 " bottle")
+(str 12 " bottles")
+(defn plural [n] (str n " bottles"))
+(defn bottles [n]
+  (case n
+    0 (plural "no")
+    1 "1 bottle"
+    (plural n)))
+(defn how-many-bottles-of-beer [n]
+  (str (bottles n) " of beer"))
+(defn how-many-bottles-of-beer-on-the-wall [n]
+  (str (how-many-bottles-of-beer n) " on the wall"))
+(defn verse [n]
+  (str (how-many-bottles-of-beer-on-the-wall n) ", " (how-many-bottles-of-beer n)))
+(verse 0)
+(verse 1)
+(verse 2)
+(verse 99)
+(clojure.string/capitalize "no bottles")
+(defn line [s]
+  (str (str/capitalize s) "\n"))
+(defn verse [n]
+  (line (str (how-many-bottles-of-beer-on-the-wall n) ", " (how-many-bottles-of-beer n))))
+(defn line [s]
+  (str (clojure.string/capitalize s) "\n"))
+(defn verse [n]
+  (line (str (how-many-bottles-of-beer-on-the-wall n) ", " (how-many-bottles-of-beer n))))
+(verse 0)
+(verse 1)
+(verse 2)
+(verse 99)
+(defn what-to-do [n]
+  (if (= 0 n)
+    "go to the store and buy some more"
+    "take it down and pass it around"))
+(defn verse [n]
+  (str
+    (line (str (how-many-bottles-of-beer-on-the-wall n) ", " (how-many-bottles-of-beer n) "."))
+    (line (str (what-to-do n) ", " (how-many-bottles-of-beer-on-the-wall n) "."))))
+(verse 0)
+(defn what-to-do [n]
+  (if (= 0 n)
+    (str "go to the store and buy some more, " (how-many-bottles-of-beer-on-the-wall 99))
+    (str "take it down and pass it around, " (how-many-bottles-of-beer-on-the-wall (dec n)))))
+(defn verse [n]
+  (str
+    (line (str (how-many-bottles-of-beer-on-the-wall n) ", " (how-many-bottles-of-beer n) "."))
+    (what-to-do n)))
+(verse 0)
+(defn verse [n]
+  (str
+    (line (str (how-many-bottles-of-beer-on-the-wall n) ", " (how-many-bottles-of-beer n) "."))
+    (line (what-to-do n))))
+(verse 0)
+(verse 1)
+(defn bottles [n]
+  (case n
+    0 (plural "no more")
+    1 "1 bottle"
+    (plural n)))
+(verse 0)
+(verse 1)
+(defn what-to-do [n]
+  (if (= 0 n)
+    (str "go to the store and buy some more, " (how-many-bottles-of-beer-on-the-wall 99))
+    (str "take it down and pass it around, " (how-many-bottles-of-beer-on-the-wall (dec n)))))
+(defn line [s]
+  (str (str/capitalize s) ".\n"))
+(defn verse [n]
+  (str
+    (line (str (how-many-bottles-of-beer-on-the-wall n) ", " (how-many-bottles-of-beer n)))
+    (line (what-to-do n))))
+(defn line [s]
+  (str (clojure.string/capitalize s) ".\n"))
+(verse 0)
+(verse 1)
+(verse 2)
+(verse 99)
+(defn sing
+  ([verse-from verse-to]
+   (if (= verse-from verse-to)
+     (verse verse-from)
+     (str (verse verse-from) "\n" (sing (dec verse-from) verse-to))))
+  ([verse-from]
+   (sing verse-from 0)))
+(sing 0 0)
+(sing 1 1)
+(sing 1 0)
+(sing 1)
+(sing 2)
