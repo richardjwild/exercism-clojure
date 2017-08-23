@@ -8,4 +8,4 @@
       (= (sort l1) (sort l2)))))
 
 (defn anagrams-for [word candidates]
-  (vec (remove (fn [candidate] (not (are-anagrams word candidate))) candidates)))
+  (vec (filter (partial are-anagrams word) candidates)))
