@@ -1,0 +1,38 @@
+(vec [:a :b] :c)
+(vector [:a :b] :c)
+(conj [:a :b] :c)
+(sort {:c "foo", :b "bar", :a "baz"})
+(sort {3 "foo", 1 "bar", 2 "baz"})
+(let [sorted (sort {:c "foo", :b "bar", :a "baz"})]
+(apply assoc {} #(hash-map (first %1) (second %1))))
+(let [sorted (sort {:c "foo", :b "bar", :a "baz"})]
+(apply assoc {} #(hash-map (first %1) (second %1)) sorted))
+(keys {:c "foo", :b "bar", :a "baz"})
+(sort (keys {:c "foo", :b "bar", :a "baz"}))
+(let [my-map {:c "foo", :b "bar", :a "baz"}]
+(map #(get my-map %1) (sort (keys my-map))))
+(map #({%1 (get my-map %1)}) (sort (keys my-map))))
+(let [my-map {:c "foo", :b "bar", :a "baz"}]
+(map #({%1 (get my-map %1)}) (sort (keys my-map))))
+(let [my-map {:c "foo", :b "bar", :a "baz"}]
+(map #(hash-map %1 (get my-map %1)) (sort (keys my-map))))
+(let [my-map {:c "foo", :b "bar", :a "baz"}]
+(apply assoc (map #(hash-map %1 (get my-map %1)) (sort (keys my-map)))))
+(let [my-map {:c "foo", :b "bar", :a "baz"}]
+(assoc {} (map #(hash-map %1 (get my-map %1)) (sort (keys my-map)))))
+(sorted-map-by > {:c "foo", :b "bar", :a "baz"})
+(into (sorted-map-by >) {:c "foo", :b "bar", :a "baz"})
+(into (sorted-map) {:c "foo", :b "bar", :a "baz"})
+(hash-map :a "foo" :b "bar")
+(def my-map {:c ["foo"], :b ["bar" "a"], :a "baz"})
+(into (sorted-map) my-map)
+(def my-map {:c ["foo"], :b ["bar" "a"], :a ["baz"]})
+(into (sorted-map) my-map)
+(map #(println %1) my-map)
+(map #((first %1) (second %1)) my-map)
+(map #(list (first %1) (second %1)) my-map)
+(mapcat #(list (first %1) (second %1)) my-map)
+(mapcat #(list (first %1) (sort (second %1))) my-map)
+(apply hash-map (mapcat #(list (first %1) (sort (second %1))) my-map))
+(apply hash-map (mapcat #(list (first %1) (apply vector (sort (second %1)))) my-map))
+(into (sorted-map) (apply hash-map (mapcat #(list (first %1) (apply vector (sort (second %1)))) my-map)))
