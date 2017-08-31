@@ -1,0 +1,194 @@
+(first '(:a :b :c))
+(second '(:a :b :c))
+(if (> 2 1) "yes" "no")
+(mod -15 60)
+(rem -15 60)
+(mod 15 60)
+(rem 15 60)
+(rem -61 60)
+(mod -61 60)
+(mod -1 60)
+(mod -15 60)
+(mod -30 60)
+(mod -45 60)
+(mod -59 60)
+(+ 1 nil)
+(defn calc-minutes [m]
+  (let [minutes-total (+ (mod m 60) (if (>= m 0) (rem m 60) 0))]
+    (list (mod minutes-total 60) (rem minutes-total 60))))
+(calc-minutes 1)
+(mod 1 60)
+(rem 1 60)
+(quot 1 60)
+(defn calc-minutes [m]
+  (let [minutes-total (+ (quot m 60) (if (>= m 0) (rem m 60) 0))]
+    (list (quot minutes-total 60) (rem minutes-total 60))))
+(calc-minutes 1)
+(calc-minutes 2)
+(calc-minutes 60)
+(calc-minutes 59)
+(quot 60 60)
+(rem 60 60)
+(rem 59 60)
+(rem -1 60)
+(rem -59 60)
+(rem -60 60)
+(quot 60 60)
+(quot 61 60)
+(quot -61 60)
+(defn calc-minutes [m]
+  (if (>= m 0)
+    '((quot m 60) (rem m 60))
+    '((quot m 60) (+ (rem m 60) 60))))
+(calc-minutes 60)
+(defn calc-minutes [m]
+  (if (>= m 0)
+    (list (quot m 60) (rem m 60))
+    (list (quot m 60) (+ (rem m 60) 60))))
+(calc-minutes 60)
+(calc-minutes 59)
+(calc-minutes 61)
+(calc-minutes 1)
+(calc-minutes -1)
+(calc-minutes -60)
+(rem -60 60)
+(rem -59 60)
+(calc-minutes -59)
+(defn calc-minutes [m]
+  (let [m-remainder (rem m 60)]
+    (list (quot m 60) (if (>= m-remainder 0) m-remainder (+ m-remainder 60)))))
+(calc-minutes 0)
+(calc-minutes 1)
+(calc-minutes -1)
+(calc-minutes 60)
+(calc-minutes 61)
+(calc-minutes -60)
+(calc-minutes -59)
+(calc-minutes -61)
+(defn calc-minutes [m]
+  (let [m-remainder (rem m 60) m-quotient (quot m 60)]
+    (list
+      (if (>= m-remainder 0) (dec m-quotient) m-quotient)
+      (if (>= m-remainder 0) m-remainder (+ m-remainder 60)))))
+(calc-minutes 0)
+(rem -61 60)
+(rem -59 60)
+(defn calc-minutes [m]
+  (let [m-remainder (rem m 60) m-quotient (quot m 60)]
+    (list
+      (if (<= m-remainder 0) (dec m-quotient) m-quotient)
+      (if (>= m-remainder 0) m-remainder (+ m-remainder 60)))))
+(calc-minutes 0)
+(defn calc-minutes [m]
+  (let [m-remainder (rem m 60) m-quotient (quot m 60)]
+    (list
+      (if (< m-remainder 0) (dec m-quotient) m-quotient)
+      (if (>= m-remainder 0) m-remainder (+ m-remainder 60)))))
+(calc-minutes 0)
+(calc-minutes 1)
+(calc-minutes -1)
+(calc-minutes -59)
+(calc-minutes -60)
+(calc-minutes -61)
+(calc-minutes -119)
+(calc-minutes -120)
+(calc-minutes -121)
+(calc-minutes 1)
+(calc-minutes 59)
+(calc-minutes 60)
+(calc-minutes 61)
+(calc-minutes 62)
+(calc-minutes 119)
+(calc-minutes 120)
+(defn calc-minutes [m]
+  (let [m-remainder (rem m 60) m-quotient (quot m 60)]
+    (vector
+      (if (< m-remainder 0) (dec m-quotient) m-quotient)
+      (if (>= m-remainder 0) m-remainder (+ m-remainder 60)))))
+(calc-minutes 120)
+(calc-minutes 61)
+(calc-minutes -121)
+(calc-minutes -120)
+(defn calc-minutes [m]
+  (let [m-remainder (rem m 60) m-quotient (quot m 60)]
+    {:hours-to-carry (if (< m-remainder 0) (dec m-quotient) m-quotient),
+     :minutes (if (>= m-remainder 0) m-remainder (+ m-remainder 60))}))
+(calc-minutes -121)
+(calc-minutes -120)
+(calc-minutes -119)
+(calc-minutes -62)
+(calc-minutes -61)
+(calc-minutes -60)
+(defn calc-hours [h]
+  (+ (quot h 24) (if (>= h 0) (rem h 24) 0)))
+(calc-hours 1)
+(calc-hours 24)
+(defn calc-hours [h]
+  (rem h 24))
+(calc-hours 24)
+(calc-hours 23)
+(calc-hours 25)
+(defn calc-hours [h]
+  (let [h-remainder (rem h 24)]
+    (if (< h-remainder 0) (+ h-remainder 24) h-remainder)))
+(calc-hours 0)
+(calc-hours -1)
+(calc-hours 1)
+(calc-hours -24)
+(calc-hours 24)
+(calc-hours 25)
+(calc-hours 47)
+(calc-hours 48)
+(calc-hours -48)
+(calc-hours -47)
+(calc-hours -49)
+(defn calc-minutes [m]
+  (let [m-remainder (rem m 60) m-quotient (quot m 60)]
+    {:hours-to-carry (if (< m-remainder 0) (dec m-quotient) m-quotient),
+     :minutes (if (>= m-remainder 0) m-remainder (+ m-remainder 60))}))
+(defn calc-hours [h carry]
+  (let [h-remainder (rem (+ h carry) 24)]
+    (if (< h-remainder 0) (+ h-remainder 24) h-remainder)))
+(defn clock [hours-in minutes-in]
+  (let [calculated-minutes (calc-minutes minutes-in)]
+    (vector
+      (calc-hours hours (:hours-to-carry calculated-minutes))
+      (:minutes calculated-minutes))))
+(defn clock [hours-in minutes-in]
+  (let [calculated-minutes (calc-minutes minutes-in)]
+    (vector
+      (calc-hours hours-in (:hours-to-carry calculated-minutes))
+      (:minutes calculated-minutes))))
+(clock 0 0)
+(clock 0 1)
+(clock 0 59)
+(clock 0 60)
+(clock 0 61)
+(clock 0 119)
+(clock 0 120)
+(clock 0 -1)
+(clock -1 -1)
+(clock -1 0)
+(clock -2 0)
+(clock -1 -60)
+(clock -1 -61)
+(clock -2 -1)
+(clock -2 1)
+(format "%2d" 1)
+(format "%02d" 1)
+(format "%02d" 11)
+(format "%02d" 0)
+(first [1 2])
+(second [1 2])
+(defn add-time [clock minutes]
+  (clock (first clock) (+ (second clock) minutes)))
+(add-time (clock 10 0) 3)
+(/ 61 60)
+(Math/floor (/ 61 60))
+(Math/floor (/ 119 60))
+(Math/floor (/ 120 60))
+(Math/floor (/ -120 60))
+(Math/floor (/ -121 60))
+(Math/floor (/ -119 60))
+(if 0 "true" "false)
+(if 0 "true" "false")
