@@ -1,24 +1,35 @@
 (ns robot-name)
 
-(def next-ident (ref 0))
-(def robots (ref {}))
+(def used-names (atom #{}))
 
-(defn next-key []
-  (if-let [robot-keys (keys @robots)]
-    (inc (apply max robot-keys))
-    0))
+(defn random-digit []
+  (rand-int 10))
+
+(defn random-character []
+  (char (+ 65 (rand-int 25))))
+
+(defn random-name []
+  (format "%c%c%d%d%d"
+          (random-character)
+          (random-character)
+          (random-digit)
+          (random-digit)
+          (random-digit)))
+
+(defn generate-name []
+  (loop []
+    (let [name (random-name)]
+      (if (not (contains? @used-names name))
+        name
+        (recur)))))
 
 (defn robot []
-  (dosync
-    (alter next-ident inc)
-    (let [robot-key (next-key)]
-      (alter robots assoc robot-key @next-ident)
-      robot-key)))
+  (let [new-name (generate-name)]
+    (reset! used-names (conj @used-names new-name))
+    (atom new-name)))
 
-(defn reset-name [robot-key]
-  (dosync
-    (alter next-ident inc)
-    (alter robots assoc robot-key @next-ident)))
+(defn reset-name [a-robot]
+  (reset! a-robot @(robot)))
 
-(defn robot-name [robot-key]
-  (format "AA0%03d" (get @robots robot-key)))
+(defn robot-name [a-robot]
+  @a-robot)
