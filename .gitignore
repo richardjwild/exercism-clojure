@@ -3,3 +3,5 @@ vcs.xml
 target
 *.iml
 *.DS_Store
+*.lein-repl-history
+*.nrepl-port
