@@ -1,6 +1,6 @@
 (ns leap)
 
 (defn leap-year? [year]
-  (if (= 0 (rem year 100))
-    (= 0 (rem year 400))
-    (= 0 (rem year 4))))
+  (if (zero? (rem year 100))
+    (zero? (rem year 400))
+    (zero? (rem year 4))))
