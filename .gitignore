@@ -5,3 +5,4 @@ target
 *.DS_Store
 *.lein-repl-history
 *.nrepl-port
+*.lein-failures
