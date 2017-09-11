@@ -30,6 +30,7 @@
   (testing "at end of superlist"
     (is (= :superlist (sublist/classify [0 1 2 3 4 5] [3 4 5]))))
   (testing "first list missing element from second list"
+    (println "first list missing element from second list")
     (is (= :unequal (sublist/classify [1 3] [1 2 3]))))
   (testing "second list missing element from first list"
     (is (= :unequal (sublist/classify [1 2 3] [1 3]))))
