@@ -9,5 +9,4 @@
     (mapcat (partial to-list-lower-case key) values)))
 
 (defn transform [input]
-  (into (sorted-map)
-        (apply hash-map (mapcat flatten input))))
+  (apply sorted-map (mapcat flatten input)))
