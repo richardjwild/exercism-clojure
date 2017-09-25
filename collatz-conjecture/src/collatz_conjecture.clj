@@ -1,7 +1,7 @@
 (ns collatz-conjecture)
 
 (defn get-next [value]
-  (if (zero? (rem value 2))
+  (if (even? value)
     (/ value 2)
     (+ (* value 3) 1)))
 
