@@ -6,11 +6,13 @@
 (defn factors-of [n]
   (filter (partial is-factor-of n) (range 1 n)))
 
+(defn sum-of-factors [n]
+  (reduce + (factors-of n)))
+
 (defn classify [n]
   (if (neg? n)
     (throw (IllegalArgumentException. "no negative numbers please!"))
-    (let [sum-of-factors (apply + (factors-of n))]
-      (condp apply [sum-of-factors n]
-        < :deficient
-        > :abundant
-        = :perfect))))
+    (condp apply [n (sum-of-factors n)]
+      > :deficient
+      < :abundant
+      = :perfect)))
