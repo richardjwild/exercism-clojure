@@ -1,6 +1,6 @@
 (ns sieve)
 
-(defn non-primes-up-to [limit]
+(defn ^:private non-primes-up-to [limit]
   (let [half-limit (-> (/ limit 2) Math/floor int)]
     (loop [n 2, non-primes '()]
       (if (> n half-limit)
