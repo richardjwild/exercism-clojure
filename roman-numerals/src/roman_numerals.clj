@@ -1,16 +1,23 @@
-(ns roman-numerals)
+(ns roman-numerals
+  (require [clojure.string :as str]))
 
-(def the-numerals
-  [["M" 1000]
-   ["CM" 900] ["D" 500] ["CD" 400] ["C" 100]
-   ["XC" 90] ["L" 50] ["XL" 40] ["X" 10]
-   ["IX" 9] ["V" 5] ["IV" 4] ["I" 1]])
+(defn i [n]
+  (reduce str (take n (repeat "I"))))
+
+(def roman-numerals
+  (list ["M" (i 1000)]
+        ["CM" (i 900)]
+        ["D" (i 500)]
+        ["CD" (i 400)]
+        ["C" (i 100)]
+        ["XC" (i 90)]
+        ["L" (i 50)]
+        ["XL" (i 40)]
+        ["X" (i 10)]
+        ["IX" (i 9)]
+        ["V" (i 5)]
+        ["IV" (i 4)]))
 
 (defn numerals [number]
-  (loop [remaining number result "" index 0]
-    (if (zero? remaining)
-      result
-      (let [[numeral value] (the-numerals index)]
-        (if (>= remaining value)
-          (recur (- remaining value) (str result numeral) index)
-          (recur remaining result (inc index)))))))
+  (loop [[[numeral replacing] & rest] roman-numerals, result (i number)]
+    (if (nil? numeral) result (recur rest (str/replace result replacing numeral)))))
