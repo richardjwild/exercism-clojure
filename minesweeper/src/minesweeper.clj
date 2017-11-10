@@ -10,17 +10,11 @@
 (defn overlay [top bottom]
   (reduce str (map overlay-cell top bottom)))
 
-(defn cell [cell-value]
+(defn number-to-text [cell-value]
   (if (zero? cell-value) " " (str cell-value)))
 
-(defn number [cell-value]
-  (if (= " " cell-value) 0 (read-string cell-value)))
-
-(defn get-output-cell [cell1 cell2]
-  (cell (+ (number cell1) (number cell2))))
-
 (defn reduce-cells [& cells]
-  (reduce get-output-cell cells))
+  (reduce + cells))
 
 (defn above-left [x y] [(dec x), (inc y)])
 (defn above [x y] [x, (inc y)])
@@ -35,7 +29,7 @@
   ((juxt above-left above above-right left right below-left below below-right) x y))
 
 (defn neighbouring-cells [neighbours y x]
-  (if (contains? neighbours [x y]) "1" " "))
+  (if (contains? neighbours [x y]) 1 0))
 
 (defn neighbouring-lines [neighbours width y]
   (map (partial neighbouring-cells neighbours y) (take width (range))))
@@ -43,22 +37,23 @@
 (defn generate-neighbours [width height neighbouring-cells]
   (mapcat (partial neighbouring-lines neighbouring-cells width) (take height (range))))
 
-(defn read-board-cell [width height y cell x]
-  (if (mine? cell)
-    (generate-neighbours width height (set (neighbours-of x y)))
-    (generate-neighbours width height #{})))
-
-(defn read-board-line [width height line y]
-  (map (partial read-board-cell width height y) line (range)))
+(defn generate-neighbour-cells
+  ([width height line y]
+   (map (partial generate-neighbour-cells width height y) line (range)))
+  ([width height y cell x]
+   (if (mine? cell)
+     (generate-neighbours width height (set (neighbours-of x y)))
+     (generate-neighbours width height #{}))))
 
 (defn draw [board-string]
   (case board-string
     "" ""
-    (let [board (str/split-lines board-string),
-          height (count board),
-          width (count (first board))]
-      (->> (mapcat (partial read-board-line width height) board (range))
+    (let [board-lines (str/split-lines board-string),
+          height (count board-lines),
+          width (count (first board-lines))]
+      (->> (mapcat (partial generate-neighbour-cells width height) board-lines (range))
            (apply map reduce-cells)
+           (map number-to-text)
            (partition width)
            (map (partial reduce str))
            (interpose \newline)
