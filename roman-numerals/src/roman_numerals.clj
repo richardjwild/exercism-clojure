@@ -1,8 +1,8 @@
 (ns roman-numerals
   (require [clojure.string :as str]))
 
-(defn i [n]
-  (reduce str (take n (repeat "I"))))
+(defn- i [n]
+  (reduce str (repeat n "I")))
 
 (def roman-numerals
   (list ["M" (i 1000)]
@@ -18,6 +18,8 @@
         ["V" (i 5)]
         ["IV" (i 4)]))
 
+(defn- replace-with-numerals [charsequence [numeral to-replace]]
+  (str/replace charsequence to-replace numeral))
+
 (defn numerals [number]
-  (loop [[[numeral replacing] & rest] roman-numerals, result (i number)]
-    (if (nil? numeral) result (recur rest (str/replace result replacing numeral)))))
+  (reduce replace-with-numerals (i number) roman-numerals))
