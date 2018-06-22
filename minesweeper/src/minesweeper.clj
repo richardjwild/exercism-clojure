@@ -7,53 +7,54 @@
 (defn overlay-cell [top bottom]
   (if (mine? top) top bottom))
 
-(defn overlay [top bottom]
+(defn overlay-boards [top bottom]
   (reduce str (map overlay-cell top bottom)))
 
-(defn number-to-text [cell-value]
-  (if (zero? cell-value) " " (str cell-value)))
+(defn cell-as-text [cell-value]
+  (if (zero? cell-value) \space (str cell-value)))
 
-(defn reduce-cells [& cells]
-  (reduce + cells))
+(defn sum-up [& vals]
+  (reduce + vals))
 
 (defn generate-cell [neighbours y x]
   (if (contains? neighbours [x y]) 1 0))
 
 (defn generate-line [neighbours width y]
-  (map (partial generate-cell neighbours y) (take width (range))))
+  (map (partial generate-cell neighbours y)
+       (range 0 width)))
 
-(defn generate-board [width height neighbouring-cells]
-  (mapcat (partial generate-line neighbouring-cells width) (take height (range))))
+(defn generate-board [dimensions neighbours]
+  (mapcat (partial generate-line neighbours (dimensions :w))
+          (range 0 (dimensions :h))))
 
-(def neighbours-of
-  (juxt (fn [x y] [(dec x), (inc y)])
-        (fn [x y] [x, (inc y)])
-        (fn [x y] [(inc x), (inc y)])
-        (fn [x y] [(dec x), y])
-        (fn [x y] [(inc x), y])
-        (fn [x y] [(dec x), (dec y)])
-        (fn [x y] [x, (dec y)])
-        (fn [x y] [(inc x), (dec y)])))
+(def neighbours
+  [[-1, 1] [0, 1] [1, 1]
+   [-1, 0] [1, 0]
+   [-1, -1] [0, -1] [1, -1]])
 
-(defn board-of-neighbours-for-cell
-  ([width height line y]
-   (map (partial board-of-neighbours-for-cell width height y) line (range)))
-  ([width height y cell x]
-   (if (mine? cell)
-     (generate-board width height (set (neighbours-of x y)))
-     (generate-board width height #{}))))
+(defn neighbours-of [x y]
+  (set (map (fn [[x-offs y-offs]] [(+ x-offs x) (+ y-offs y)]) neighbours)))
 
-(defn draw [board-string]
-  (case board-string
+(defn board-for-cell [dimensions y x cell]
+  (generate-board dimensions (if (mine? cell) (neighbours-of x y))))
+
+(defn boards-for-line [dimensions line y]
+  (map (partial board-for-cell dimensions y)
+       (range 0 (dimensions :w))
+       line))
+
+(defn draw [input-board]
+  (case input-board
     "" ""
-    (let [board-lines (str/split-lines board-string),
-          height (count board-lines),
-          width (count (first board-lines))]
-      (->> (mapcat (partial board-of-neighbours-for-cell width height) board-lines (range))
-           (apply map reduce-cells)
-           (map number-to-text)
-           (partition width)
+    (let [lines (str/split-lines input-board),
+          dimensions {:h (count lines), :w (count (first lines))}]
+      (->> (mapcat (partial boards-for-line dimensions)
+                   lines
+                   (range 0 (dimensions :h)))
+           (apply map sum-up)
+           (map cell-as-text)
+           (partition (dimensions :w))
            (map (partial reduce str))
            (interpose \newline)
            (reduce str)
-           (overlay board-string)))))
+           (overlay-boards input-board)))))
